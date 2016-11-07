@@ -1,2 +1,2 @@
 # berryCharts
-Charting based on Berry forms
+A library for displaying chart data based on Berry definitions
