@@ -1,26 +1,35 @@
 
+function getIdentifier(obj){
+	return (obj.name|| obj.label.split(' ').join('_').toLowerCase());
+}
 function berryChart(options) {
 	this.draw = function(){
 
 
 				this.data = [this.numbers];
-				myStack.collection.each(function(model){
-					this.data.push(_.values(_.pick(model.attributes, this.numbers)));
-				}, this);
+				debugger;
+				_.each(this.options.data,function(model){
+
+										this.data.push(_.values(_.pick(model, this.numbers)));
+
+				},this)
+				// this.options.data.each(function(model){
+				// 	this.data.push(_.values(_.pick(model.attributes, this.numbers)));
+				// }, this);
 				if(typeof this.chart !== 'undefined'){
 					this.chart.load({
-					    rows: this.data,
+							rows: this.data,
 					});
 				}else{
 					this.chart = c3.generate({
-					  data: {
-					    rows: this.data,
-					 		names: this.names,
-					    type: get().chart_type
-					  },
-					  donut: {
-					    title: myStack.config.attributes.name
-					  }
+						data: {
+							rows: this.data,
+							names: this.names,
+							type: this.options.chart_type || 'spline'
+						},
+						donut: {
+							title: this.options.name
+						}
 					});
 				}
 	}
@@ -30,23 +39,24 @@ function berryChart(options) {
 	}
 	function onload($el){
 
-				myStack.collection.on('add', function(model){
-					if(model.attributes._id){
-						this.draw();
-					}else{
-						this.temp = model;
-						model.on('ready', function(){
-							this.draw();
-						}, this);
-					}
-				}, this);
-				myStack.collection.on('remove', function() {
-		 			this.draw();
-				}, this);
-				myStack.collection.on('change', function() {
-		 			this.draw();
-				}, this);
-				var numberObjects = _.where(myStack.config.attributes.form, {type: 'number'});
+				// myStack.collection.on('add', function(model){
+				// 	if(model.attributes._id){
+				// 		this.draw();
+				// 	}else{
+				// 		this.temp = model;
+				// 		model.on('ready', function(){
+				// 			this.draw();
+				// 		}, this);
+				// 	}
+				// }, this);
+				// myStack.collection.on('remove', function() {
+			// 		this.draw();
+				// }, this);
+				// myStack.collection.on('change', function() {
+			// 		this.draw();
+				// }, this);
+
+				var numberObjects = _.where(this.options.schema, {type: 'number'});
 				this.numbers = _.map(numberObjects, function(item){ return getIdentifier(item);  /*{name: getIdentifier(item),label: item.label}*/ } );
 				this.names = {};
 				_.map(numberObjects, $.proxy(function(item){ this.names[getIdentifier(item)] = item.label;},this) );
@@ -58,19 +68,8 @@ function berryChart(options) {
 				this.draw();
 
 	}
-	function get() {
-		item.widgetType = 'drupe_chart_view';
-		return item;
-	}
-	function toJSON() {
-		return get();
-	}
-	function set(newItem){
-		$.extend(item, newItem);
-	}
-	var item = {
-		widgetType: 'drupe_chart_view',
-	}
+
+
 	var fields = {
 		'Chart Type': [
 			{label: 'Line', value: 'line'},
@@ -80,16 +79,20 @@ function berryChart(options) {
 			{label: 'Spline', value: 'spline'}
 		]
 	}
-	return {
-		container: container,
-		fields: fields,
-		render: render,
-		toJSON: toJSON,
-		onload: onload.bind(this),
-		edit: berryEditor.call(this, container),
-		get: get,
-		set: set
-	}
+	this.options = options;
+	$(this.options.container).html(render());
+	onload.call(this);
+
+	// return {
+	// 	container: options.container,
+	// 	fields: fields,
+	// 	// render: render,
+	// 	// toJSON: toJSON,
+	// 	// onload: onload.bind(this),
+	// 	// edit: berryEditor.call(this, options.container),
+	// 	// get: get,
+	// 	// set: set
+	// }
 }
 
 

@@ -11,8 +11,9 @@
 		<link rel='stylesheet' type='text/css' href='//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css'>
 		<link rel='stylesheet' type='text/css' href='//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css'>
 		<link rel='stylesheet' type='text/css' href='assets/css/demo.css'>
-		<link rel='stylesheet' type='text/css' href='assets/css/table.css'>
+		<!-- <link rel='stylesheet' type='text/css' href='assets/css/table.css'> -->
 		<link rel='stylesheet' type='text/css' href='src/vendor/css/colorpicker.min.css'>
+		<link rel='stylesheet' type='text/css' href='//cdnjs.cloudflare.com/ajax/libs/c3/0.4.10/c3.css'>
 
 	</head>
 
@@ -68,12 +69,17 @@
 		<script type='text/javascript' src='assets/js/bin/bootstrap.full.berry.js'></script>
 		<!--script type='text/javascript' src='assets/js/backbone.min.js'></script-->
 		<script type='text/javascript' src='src/js/data.js'></script>
-		<script type='text/javascript' src='src/js/Chart.min.js'></script>
+		<!-- // <script type='text/javascript' src='src/js/Chart.min.js'></script> -->
 		<script type='text/javascript' src='src/js/chart.js'></script>
 		<script type='text/javascript' src='src/js/view.js'></script>
 		<script type='text/javascript' src='src/js/collection.js'></script>
 		<script type='text/javascript' src='src/js/utils.js'></script>
 		<script type='text/javascript' src='src/js/views.js'></script>
+
+		<script type='text/javascript' src='//d3js.org/d3.v3.js'></script>
+		<script type='text/javascript' src='//cdnjs.cloudflare.com/ajax/libs/c3/0.4.10/c3.min.js'></script>
+
+
 
 		<script type='text/javascript' >
 			bt = new berryChart({container: '#first',
@@ -92,11 +98,12 @@
 					}}
 				],
 				schema:[
-				{type:"text", name:"title", label:"Title"},
+				{name:"a", label:"Aaron", type:'number'},
+				{name:"c", label:"Charles", type:'number'},
+				{name:"t", label:"Total", type:'number'},
 				{type:"select", name:"status", label: "Status", options:[{label:'Started', value:'Started'}, {label:'Created', value:'Created'}]}
 
 			], data: data})
-			
 		</script>
 
 </body></html>
