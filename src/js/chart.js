@@ -6,6 +6,8 @@ function berryChart(options) {
 	var chartTypes = [
 			{label: 'Line', value: 'line'},
 			{label: 'Spline', value: 'spline'},
+			{label: 'Scatter', value: 'scatter'},
+			{label: 'Step', value: 'step'},
 			{label: 'Bar', value: 'bar'},
 			{label: 'Pie', value: 'pie'},
 			{label: 'Donut', value: 'donut'}
@@ -14,16 +16,19 @@ function berryChart(options) {
 	this.draw = function(force){
 
 
-				this.numbers.unshift('updatedAt')
 				this.data = [this.numbers];
-				_.each(this.options.data, function(model){
-					var values = $.extend(true,{},_.values(_.pick(model, this.numbers)));
-					values[0] = moment(values[0]).format("YYYY-MM-DD");
+var start = moment('4 1 2016')
+var end = moment('5 1 2016').subtract(3, 'day');
+
+				// var tempdata = 
+				_.each(_.filter(this.options.data,function(model){
+					return moment(model.date).isBetween(start,end);
+				}), function(model){
+					var values =_.values(_.pick(model, this.numbers));// $.extend(true,[],);
+					values[0] = moment(values[0]).utc().format("YYYY-MM-DD");
 					this.data.push(values);
-					// this.data.push(_.values(_.pick(model, this.numbers)));
 				}, this)
-				debugger;
-				// this.data[0][0] = 'x';
+debugger;
 				if(typeof this.chart !== 'undefined' && !force){
 					this.chart.load({
 							rows: this.data,
@@ -33,10 +38,10 @@ function berryChart(options) {
 					// this.data.unshift(['x', '2013-01-01', '2013-01-02', '2013-01-03', '2013-01-04', '2013-01-05', '2013-01-06'])
 					this.chart = c3.generate({
 						data: {
-							x: 'updatedAt',
+							x: 'date',
 							rows: this.data,
 							names: this.names,
-							type: this.options.chart_type || 'spline'
+							type: this.options.chart_type || 'step'
 						},
 						donut: {
 							title: this.options.name
@@ -45,7 +50,9 @@ function berryChart(options) {
 							x: {
 								type: 'timeseries',
 								tick: {
-										format: '%Y-%m-%d'
+									                fit: false,
+
+										format: '%m-%d'
 								}
 							}
 						}
@@ -83,6 +90,8 @@ function berryChart(options) {
 					},this);
 				var numberObjects = _.where(this.options.schema, {type: 'number'});
 				this.numbers = _.map(numberObjects, function(item){ return getIdentifier(item);  /*{name: getIdentifier(item),label: item.label}*/ } );
+
+				this.numbers.unshift('date')
 				this.names = {};
 				_.map(numberObjects, $.proxy(function(item){ this.names[getIdentifier(item)] = item.label;},this) );
 
@@ -95,15 +104,7 @@ function berryChart(options) {
 	}
 
 
-	var fields = {
-		'Chart Type': [
-			{label: 'Line', value: 'line'},
-			{label: 'Bar', value: 'bar'},
-			{label: 'Pie', value: 'pie'},
-			{label: 'Donut', value: 'donut'},
-			{label: 'Spline', value: 'spline'}
-		]
-	}
+
 	this.options = options;
 	$(this.options.container).html(render());
 	onload.call(this);
