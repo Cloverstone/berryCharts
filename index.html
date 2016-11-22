@@ -84,27 +84,21 @@
 
 		<script type='text/javascript' >
 			bt = new berryChart({container: '#first',
-				edit:true,
-				add: true,
+				chart_type: 'spline',
+				start: '1/1/2016',
+				end: '12/31/2016',
 				click: function(model){
 					console.log(model.attributes);
 				},
-				delete:true,
-				entries :[1,2,5],
-				count:5,
-				events:[
-					{'name': 'manage', 'label': '<i class="fa fa-cogs"></i> Manage', callback: function(){
 
-						alert('Manage');
-					}}
-				],
+
 				schema:[
-				{name:"a", label:"Aaron", type:'number'},
-				{name:"c", label:"Charles", type:'number'},
-				{name:"t", label:"Total", type:'number'},
-				{type:"select", name:"status", label: "Status", options:[{label:'Started', value:'Started'}, {label:'Created', value:'Created'}]}
+					{name:"a", label:"Aaron", type:'number'},
+					{name:"c", label:"Charles", type:'number'},
+					{name:"t", label:"Total", type:'number'},
+					{type:"select", name:"status", label: "Status", options:[{label:'Started', value:'Started'}, {label:'Created', value:'Created'}]}
 
-			], data: data})
+				], data: data})
 		</script>
 
 </body></html>

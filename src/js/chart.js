@@ -17,8 +17,8 @@ function berryChart(options) {
 
 
 				this.data = [this.numbers];
-var start = moment('4 1 2016')
-var end = moment('5 1 2016').subtract(3, 'day');
+				var start =  moment(this.options.start); 
+				var end = moment(this.options.end)
 
 				// var tempdata = 
 				_.each(_.filter(this.options.data,function(model){
@@ -28,7 +28,6 @@ var end = moment('5 1 2016').subtract(3, 'day');
 					values[0] = moment(values[0]).utc().format("YYYY-MM-DD");
 					this.data.push(values);
 				}, this)
-debugger;
 				if(typeof this.chart !== 'undefined' && !force){
 					this.chart.load({
 							rows: this.data,
@@ -81,10 +80,13 @@ debugger;
 				// myStack.collection.on('change', function() {
 			// 		this.draw();
 				// }, this);
-				this.settings = $('#form').berry({fields:[
-					{label:"Display",name:'chart_type', options:chartTypes}
+				this.settings = $('#form').berry({attributes: this.options, fields:[
+					{label:"Display",name:'chart_type', options:chartTypes},
+					{label:"From",name:'start',type:'date' },
+					{label:"To",name:'end',type:'date' },
 					], actions:false}).on('change', function(){
-													this.options.chart_type = this.settings.toJSON().chart_type;
+													// this.options.chart_type =
+													 $.extend(this.options, this.settings.toJSON());
 													this.draw(true) 
 
 					},this);
