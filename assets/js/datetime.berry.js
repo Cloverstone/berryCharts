@@ -5,10 +5,14 @@
 			this.$el = this.self.find('input');
 			this.$el.off();
 			if(this.onchange !== undefined){ this.$el.on('input',this.onchange);}
+			// debugger
+			this.$el.attr('type', 'text');
 			this.$el.on('input', $.proxy(function(){this.trigger('change');}, this));
+			// this.$el.on('change', $.proxy(function(){this.trigger('change');}, this));
 
 	
-	    this.$el.datetimepicker($.extend({},{format: "MM/DD/YYYY"}, this.item.datepicker))
+	    // this.$el.datetimepicker($.extend({},{format: "MM/DD/YYYY"}, this.item.datepicker))
+	    this.$el.datetimepicker($.extend({},{format: "YYYY-MM-DD"}, this.item.datepicker)).on('dp.change',  $.proxy(function(){this.trigger('change');}, this));
 		},
 		satisfied: function(){
 			this.value = this.$el.val();

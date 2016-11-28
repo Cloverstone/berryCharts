@@ -21,7 +21,22 @@ function berryChart(options) {
 				var end = moment(this.options.end)
 
 				_.each(_.filter(this.options.data,function(model){
-					return moment(model[this.options.x_axis]).isBetween(start,end);
+					var status = true;
+
+					if(start.isValid()){
+						status = moment(model[this.options.x_axis]).isSameOrAfter(start);
+					}					
+					if(status && end.isValid()){
+						status = moment(model[this.options.x_axis]).isSameOrBefore(end);
+					}
+					return status;
+					// end.isValid()
+
+//isSameOrAfter(
+// isSameOrBefore(
+					// return moment(model[this.options.x_axis]).isBetween(start,end);
+
+
 				}.bind(this)), function(model){
 					var values =_.values(_.pick(model, this.numbers));// $.extend(true,[],);
 					values[0] = moment(values[0]).utc().format("YYYY-MM-DD");
@@ -31,7 +46,32 @@ function berryChart(options) {
 					this.chart.load({
 							rows: this.data,
 					});
+					// this.chart.destroy();
+					// this.chart = c3.generate({
+					// 	data: {
+					// 		x: this.options.x_axis,
+					// 		rows: this.data,
+					// 		names: this.names,
+					// 		type: this.options.chart_type || 'step'
+					// 	},
+					// 	donut: {
+					// 		title: this.options.name
+					// 	},
+					// 	axis: {
+					// 		x: {
+					// 			type: 'timeseries',
+					// 			tick: {
+					// 				                fit: false,
+
+					// 					format: '%m-%d'
+					// 			}
+					// 		}
+					// 	}
+					// });
+
+
 				}else{
+					// this.chart.destroy();
 					this.chart = c3.generate({
 						data: {
 							x: this.options.x_axis,
@@ -57,7 +97,7 @@ function berryChart(options) {
 	}
 
 	function render(){
-		return '<div class="well" style="background-color:#fff"><div id="form"></div><div id="chart"></div></div>';
+		return '<div class="well" style="background-color:#fff"><div id="chart"></div></div>';
 	}
 	function onload($el){
 

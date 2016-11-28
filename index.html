@@ -36,9 +36,10 @@
 		</div><!-- /.navbar -->
 		<div class="container col-md-6" style="width:100%">
 			<div class="row">
- 				<div class="col-md-12 col-xs-12" id="first">
+ 				<div class="col-md-8 col-xs-12" id="first">
 
 					</div>
+					<div id="form" class="col-md-4 col-xs-12" ></div>
 			</div>
 		</div>
 
@@ -80,14 +81,14 @@
 		<script type='text/javascript' src='//cdnjs.cloudflare.com/ajax/libs/c3/0.4.10/c3.min.js'></script>
 
 		<script type='text/javascript' src='src/js/moment.js'></script>
-		<script type='text/javascript' src='assets/js/datetime.berry.js'></script>
+		// <script type='text/javascript' src='assets/js/datetime.berry.js'></script>
 
 
 		<script type='text/javascript' >
 			bt = new berryChart({container: '#first',
 				chart_type: 'scatter',
-				start: '4/1/2016',
-				end: '4/30/2016',
+				start: '2016-04-01',
+				end: '2016-04-30',
 
 				x_axis:'updatedAt',
 				click: function(model){
